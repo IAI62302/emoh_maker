@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Household Manager'),
+        title: const Text('Emoh Maker', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
       ),
       body: IndexedStack(
         index: _currentIndex,
