@@ -11,22 +11,21 @@ class GroceryItem {
     this.isBought = false,
   });
 
-  GroceryItem copyWith({
-    String? id,
-    String? title,
-    bool? isBought,
-  }) {
-    return GroceryItem(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      isBought: isBought ?? this.isBought,
-    );
-  }
-
   factory GroceryItem.create(String title) {
     return GroceryItem(
       id: const Uuid().v4(),
       title: title,
+    );
+  }
+
+  GroceryItem copyWith({
+    String? title,
+    bool? isBought,
+  }) {
+    return GroceryItem(
+      id: id,
+      title: title ?? this.title,
+      isBought: isBought ?? this.isBought,
     );
   }
 }

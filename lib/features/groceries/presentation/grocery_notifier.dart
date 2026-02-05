@@ -6,24 +6,22 @@ class GroceryNotifier extends StateNotifier<List<GroceryItem>> {
   GroceryNotifier() : super([]);
 
   void addItem(String title) {
-    if (title.trim().isEmpty) return;
+    final trimmed = title.trim();
+    if (trimmed.isEmpty) return;
 
-    state = [
-      ...state,
-      GroceryItem.create(title),
-    ];
+    state = [...state, GroceryItem.create(trimmed)];
   }
 
-  void toggleItem(String id) {
-    state = state.map((item) {
-      if (item.id == id) {
-        return item.copyWith(isBought: !item.isBought);
-      }
-      return item;
-    }).toList();
+  void toggle(String id) {
+    state = state
+        .map((item) =>
+            item.id == id
+                ? item.copyWith(isBought: !item.isBought)
+                : item)
+        .toList();
   }
 
-  void removeItem(String id) {
+  void remove(String id) {
     state = state.where((item) => item.id != id).toList();
   }
 }
