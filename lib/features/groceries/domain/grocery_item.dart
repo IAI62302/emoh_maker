@@ -1,8 +1,16 @@
-import 'package:uuid/uuid.dart';
+import 'package:hive/hive.dart';
 
-class GroceryItem {
+part 'grocery_item.g.dart';
+
+@HiveType(typeId: 1)
+class GroceryItem extends HiveObject {
+  @HiveField(0)
   final String id;
+
+  @HiveField(1)
   final String title;
+
+  @HiveField(2)
   final bool isBought;
 
   GroceryItem({
@@ -10,13 +18,6 @@ class GroceryItem {
     required this.title,
     this.isBought = false,
   });
-
-  factory GroceryItem.create(String title) {
-    return GroceryItem(
-      id: const Uuid().v4(),
-      title: title,
-    );
-  }
 
   GroceryItem copyWith({
     String? title,

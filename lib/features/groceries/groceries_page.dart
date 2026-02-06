@@ -84,14 +84,14 @@ class GroceriesPage extends ConsumerWidget {
     );
   }
 
-  void _submit(
+  Future<void> _submit(
     WidgetRef ref,
     TextEditingController controller,
     BuildContext context,
-  ) {
-    ref.read(groceryProvider.notifier).addItem(controller.text);
+  ) async {
+    await ref.read(groceryProvider.notifier).addItem(controller.text);
     Navigator.pop(context);
-  }
+}
 }
 
 class _Section extends ConsumerWidget {
@@ -144,7 +144,7 @@ class _GroceryTile extends ConsumerWidget {
         color: Colors.red.withOpacity(0.8),
         child: const Icon(Icons.delete, color: Colors.white),
       ),
-      onDismissed: (_) {
+      onDismissed: (_) async {
         ref.read(groceryProvider.notifier).remove(item.id);
       },
       child: Card(
@@ -161,7 +161,7 @@ class _GroceryTile extends ConsumerWidget {
                 ? Icons.check_circle
                 : Icons.radio_button_unchecked,
           ),
-          onTap: () {
+          onTap: () async {
             ref.read(groceryProvider.notifier).toggle(item.id);
           },
         ),

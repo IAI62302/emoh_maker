@@ -1,32 +1,38 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:planit_family/features/groceries/data/grocery_repository.dart';
 import '../domain/grocery_item.dart';
+import 'grocery_providers.dart';
 
 class GroceryNotifier extends StateNotifier<List<GroceryItem>> {
-  GroceryNotifier() : super([]);
+  final GroceryRepository _repository;
 
-  void addItem(String title) {
-    final trimmed = title.trim();
-    if (trimmed.isEmpty) return;
+  GroceryNotifier(this._repository)
+      : super(_repository.getAll());
 
-    state = [...state, GroceryItem.create(trimmed)];
+  Future<void> addItem(String title) async {
+    if (title.trim().isEmpty) return;
+
+    await _repository.add(title);
+    state = _repository.getAll();
   }
 
-  void toggle(String id) {
-    state = state
-        .map((item) =>
-            item.id == id
-                ? item.copyWith(isBought: !item.isBought)
-                : item)
-        .toList();
+  Future<void> toggle(String id) async {
+    final item = state.firstWhere((e) => e.id == id);
+    final updated = item.copyWith(isBought: !item.isBought);
+
+    await _repository.update(updated);
+    state = _repository.getAll();
   }
 
-  void remove(String id) {
-    state = state.where((item) => item.id != id).toList();
+  Future<void> remove(String id) async {
+    await _repository.delete(id);
+    state = _repository.getAll();
   }
 }
 
 final groceryProvider =
     StateNotifierProvider<GroceryNotifier, List<GroceryItem>>(
-  (ref) => GroceryNotifier(),
+  (ref) => GroceryNotifier(
+    ref.read(groceryRepositoryProvider),
+  ),
 );
