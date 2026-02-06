@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'features/groceries/groceries_page.dart';
 import 'features/expenses/expenses_page.dart';
-import 'features/due_dates/due_dates_page.dart';
+import 'features/due_dates/presentation/due_dates_page.dart';
 import 'features/maintenance/maintenance_page.dart';
 
 class HouseholdApp extends StatelessWidget {
